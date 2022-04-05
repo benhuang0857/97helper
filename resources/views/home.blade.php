@@ -36,7 +36,7 @@
             var URL = 'https://notify-bot.line.me/oauth/authorize?';
             URL += 'response_type=code';
             URL += '&client_id=hNxoLbJcAlKHnOJX9LKSi3';
-            URL += '&redirect_uri=https://97helper.com//api/callback';
+            URL += '&redirect_uri=https://97helper.com/api/callback';
             URL += '&scope=notify';
             URL += '&state=NO_STATE';
             URL += '&uid=0857';
