@@ -8,7 +8,7 @@ use Auth;
 
 class LineNotifyController extends Controller
 {
-    public $main_uri = 'http://97helper.com/';
+    public $main_uri = 'https://97helper.com/';
 
     public function callBack(Request $req)
     {
