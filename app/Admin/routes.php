@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Routing\Router;
-URL::forceScheme('https');
+
 Admin::routes();
 
 Route::group([
