@@ -20,8 +20,8 @@ class LineNotifyController extends Controller
 			'grant_type'    => 'authorization_code',
 			'code'          => $req->code,
             'redirect_uri'  => $this->main_uri.'/api/callback',
-			'client_id'     => 'vwyI9hxuPjGC72KUrGDaiF',
-			'client_secret' => 'OAQR65eaqxOlIv3fnGsjrcf8oSV8Nit8FJFnMA9YwpV',
+			'client_id'     => 'hNxoLbJcAlKHnOJX9LKSi3',
+			'client_secret' => '61YkMUtJfSmNekoICdOrouhDFwlzzPEJ14kJXpHfR55',
 		];
 
 		$ch = curl_init();
