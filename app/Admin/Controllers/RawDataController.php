@@ -8,6 +8,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use App\User;
+use App\FootStep;
 
 class RawDataController extends AdminController
 {
@@ -75,9 +76,25 @@ class RawDataController extends AdminController
 
         $form->saving(function (Form $form) {
             $users = User::all();
+            $fooStep = FootStep::orderBy('created_at', 'desc')->first();
+            $pointer = $fooStep->position;
+            $footNum = $fooStep->footnum;
+
+            $memberList = array();
+            $memListLen = sizeof($users);
+
+            foreach ($users as $_user) { 
+                array_push($memberList, $_user->id);
+            }
+
             if ($form->status == 'PASS')
             {
-                foreach ($users as $_user) {
+                for ($i=0; $i < $stepNum; $i++) { 
+                    $pointer = $pointer%$memListLen;
+                    $memId = $memberList[$pointer];
+
+                    $_user = User::where('id', $memId)->first();
+
                     $access_token = $_user->line_token;
                     $mymessage = '姓名：'.$form->name.' 電話：'.$form->phone;
 
@@ -96,7 +113,29 @@ class RawDataController extends AdminController
                     $result = curl_exec($ch);
                     curl_close($ch);
 
+                    $pointer++;
                 }
+
+                // foreach ($users as $_user) {
+                //     $access_token = $_user->line_token;
+                //     $mymessage = '姓名：'.$form->name.' 電話：'.$form->phone;
+
+                //     $headers = array(
+                //         'Content-Type: multipart/form-data',
+                //         'Authorization: Bearer '.$access_token.''
+                //     );
+                //     $message = array(
+                //         'message' => $mymessage
+                //     );
+                //     $ch = curl_init();
+                //     curl_setopt($ch , CURLOPT_URL , "https://notify-api.line.me/api/notify");
+                //     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                //     curl_setopt($ch, CURLOPT_POST, true);
+                //     curl_setopt($ch, CURLOPT_POSTFIELDS, $message);
+                //     $result = curl_exec($ch);
+                //     curl_close($ch);
+
+                // }
             }
         });
 

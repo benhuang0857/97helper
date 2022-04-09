@@ -14,5 +14,5 @@ Route::group([
     $router->get('/', 'HomeController@index')->name('home');
     $router->resource('users', UserController::class);
     $router->resource('raw-datas', RawDataController::class);
-
+    $router->resource('foot-steps', FootStepController::class);
 });
