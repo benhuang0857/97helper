@@ -75,20 +75,21 @@ class RawDataController extends AdminController
         ]);
 
         $form->saving(function (Form $form) {
-            $users = User::all();
-            $fooStep = FootStep::orderBy('created_at', 'desc')->first();
-            $pointer = $fooStep->position;
-            $footNum = $fooStep->footnum;
-
-            $memberList = array();
-            $memListLen = sizeof($users);
-
-            foreach ($users as $_user) { 
-                array_push($memberList, $_user->id);
-            }
 
             if ($form->status == 'PASS')
             {
+                $users = User::all();
+                $fooStep = FootStep::orderBy('created_at', 'desc')->first();
+                $pointer = $fooStep->position;
+                $footNum = $fooStep->footnum;
+    
+                $memberList = array();
+                $memListLen = sizeof($users);
+    
+                foreach ($users as $_user) { 
+                    array_push($memberList, $_user->id);
+                }
+
                 for ($i=0; $i < $stepNum; $i++) { 
                     $pointer = $pointer%$memListLen;
                     $memId = $memberList[$pointer];
@@ -115,6 +116,8 @@ class RawDataController extends AdminController
 
                     $pointer++;
                 }
+
+                $fooStep->position = $pointer;
 
                 // foreach ($users as $_user) {
                 //     $access_token = $_user->line_token;
