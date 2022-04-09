@@ -118,6 +118,7 @@ class RawDataController extends AdminController
                 }
 
                 $fooStep->position = $pointer;
+                $fooStep->save();
 
                 // foreach ($users as $_user) {
                 //     $access_token = $_user->line_token;
