@@ -90,7 +90,7 @@ class RawDataController extends AdminController
                     array_push($memberList, $_user->id);
                 }
 
-                for ($i=0; $i < $stepNum; $i++) { 
+                for ($i=0; $i < $footNum; $i++) { 
                     $pointer = $pointer%$memListLen;
                     $memId = $memberList[$pointer];
 
