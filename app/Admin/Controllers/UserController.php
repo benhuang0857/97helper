@@ -29,6 +29,10 @@ class UserController extends AdminController
 
         $grid->column('id', __('Id'));
         $grid->column('name', __('Name'));
+        $grid->column('gid', __('群組'))->display(function($gid){
+            $gName = Group::where('id', $gid)->first()->name;
+            return $gName;
+        });
         $grid->column('email', __('Email'));
         //$grid->column('password', __('Password'));
         //$grid->column('remember_token', __('Remember token'));
@@ -84,7 +88,7 @@ class UserController extends AdminController
         $form->password('password', __('Password'));
         $form->text('mobile', '電話')->options(['mask' => '9999999999']);
         $form->text('line_token', __('Line Token'));
-        $form->select('gid', __('狀態'))->options($groupSet);
+        $form->select('gid', __('群組'))->options($groupSet);
 
         $form->saving(function (Form $form) {
             if ($form->password == null)
