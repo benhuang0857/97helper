@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\RawData;
+use App\Group;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
