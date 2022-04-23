@@ -29,11 +29,18 @@ class RawDataController extends AdminController
         $grid = new Grid(new RawData());
 
         $grid->column('id', __('Id'));
-        $grid->column('name', __('Name'));
-        $grid->column('phone', __('Phone'));
-        $grid->column('status', __('Status'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('name', __('姓名'));
+        $grid->column('phone', __('電話'));
+        $grid->column('gid', __('群組'))->display(function($gid){
+            try {
+                $gName = Group::where('id', $gid)->first()->name;
+                return $gName;
+            } catch (\Throwable $th) {
+                return '無群組';
+            }
+        });
+        $grid->column('status', __('狀態'));
+        $grid->column('created_at', __('建立時間'));
 
         return $grid;
     }
@@ -65,10 +72,19 @@ class RawDataController extends AdminController
      */
     protected function form()
     {
+
+        $groupSet = array();
+        $groups = Group::All();
+
+        foreach ($groups as $item) {
+            $groupSet[$item->id] = $item->name;
+        }
+
         $form = new Form(new RawData());
 
         $form->text('name', __('姓名'));
         $form->mobile('phone', __('電話'))->options(['mask' => '9999999999']);
+        $form->select('gid', __('群組'))->options($groupSet);
         $form->select('status', __('狀態'))->options([
             'KEEP' => '保留',
             'PASS' => '發送',
