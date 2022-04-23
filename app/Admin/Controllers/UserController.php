@@ -30,8 +30,12 @@ class UserController extends AdminController
         $grid->column('id', __('Id'));
         $grid->column('name', __('Name'));
         $grid->column('gid', __('群組'))->display(function($gid){
-            $gName = Group::where('id', $gid)->first()->name;
-            return $gName;
+            try {
+                $gName = Group::where('id', $gid)->first()->name;
+                return $gName;
+            } catch (\Throwable $th) {
+                return '尚未分配群組';
+            }
         });
         $grid->column('email', __('Email'));
         //$grid->column('password', __('Password'));
