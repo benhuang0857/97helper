@@ -15,4 +15,5 @@ Route::group([
     $router->resource('users', UserController::class);
     $router->resource('raw-datas', RawDataController::class);
     $router->resource('foot-steps', FootStepController::class);
+    $router->resource('groups', GroupController::class);
 });
