@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\User;
+use App\Group;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -68,7 +69,14 @@ class UserController extends AdminController
      * @return Form
      */
     protected function form()
-    {
+    {   
+        $groupSet = array();
+        $groups = Group::All();
+
+        foreach ($groups as $item) {
+            $groupSet[$item->id] = $item->name;
+        }
+        
         $form = new Form(new User());
 
         $form->text('name', '姓名');
@@ -76,6 +84,7 @@ class UserController extends AdminController
         $form->password('password', __('Password'));
         $form->text('mobile', '電話')->options(['mask' => '9999999999']);
         $form->text('line_token', __('Line Token'));
+        $form->select('gid', __('狀態'))->options($groupSet);
 
         $form->saving(function (Form $form) {
             if ($form->password == null)
