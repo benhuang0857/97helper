@@ -95,6 +95,37 @@ class RawDataController extends AdminController
 
             if ($form->status == 'PASS')
             {
+                $users = User::where('gid', $form->gid)->get();
+                foreach ($users as $_user) {
+
+                    try {
+                        $access_token = $_user->line_token;
+                        $mymessage = '姓名：'.$form->name.' 電話：'.$form->phone;
+
+                        $headers = array(
+                            'Content-Type: multipart/form-data',
+                            'Authorization: Bearer '.$access_token.''
+                        );
+                        $message = array(
+                            'message' => $mymessage
+                        );
+                        $ch = curl_init();
+                        curl_setopt($ch , CURLOPT_URL , "https://notify-api.line.me/api/notify");
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                        curl_setopt($ch, CURLOPT_POST, true);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, $message);
+                        $result = curl_exec($ch);
+                        curl_close($ch);
+                    } catch (\Throwable $th) {
+                        //throw $th;
+                    }
+                    
+                }
+            }
+
+            /*
+            if ($form->status == 'PASS')
+            {
                 $users = User::all();
                 $fooStep = FootStep::orderBy('created_at', 'desc')->first();
                 $pointer = $fooStep->position;
@@ -137,27 +168,9 @@ class RawDataController extends AdminController
                 $fooStep->position = $pointer;
                 $fooStep->save();
 
-                // foreach ($users as $_user) {
-                //     $access_token = $_user->line_token;
-                //     $mymessage = '姓名：'.$form->name.' 電話：'.$form->phone;
-
-                //     $headers = array(
-                //         'Content-Type: multipart/form-data',
-                //         'Authorization: Bearer '.$access_token.''
-                //     );
-                //     $message = array(
-                //         'message' => $mymessage
-                //     );
-                //     $ch = curl_init();
-                //     curl_setopt($ch , CURLOPT_URL , "https://notify-api.line.me/api/notify");
-                //     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                //     curl_setopt($ch, CURLOPT_POST, true);
-                //     curl_setopt($ch, CURLOPT_POSTFIELDS, $message);
-                //     $result = curl_exec($ch);
-                //     curl_close($ch);
-
-                // }
             }
+            */
+
         });
 
         return $form;
